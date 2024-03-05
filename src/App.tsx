@@ -9,11 +9,14 @@ type Income = {
 };
 
 function App() {
+  // declare 2 useState : total income and expense
+
   return (
     <div>
       <h1>Budget app</h1>
       <BudgetWrapper label="Income" />
       <BudgetWrapper label="Expense" />
+      {/* <TargetWrapper/> */}
     </div>
   );
 }

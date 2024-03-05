@@ -1,54 +1,68 @@
 import { useState } from 'react';
-import { IncomeForm } from './IncomeForm';
+import { BudgetForm } from './BudgetForm';
+import { SetTarget } from './SetTarget';
 
 type Budget = {
   source: string;
   amount: number;
   date: string;
 };
+type BudgetWrapperProps = {
+  label: string;
+};
 
-export function BudgetWrapper({ label }) {
-  const [Budgets, setBudgets] = useState<Budget[]>([]);
+export function BudgetWrapper({ label }: BudgetWrapperProps) {
+  const [budgets, setBudgets] = useState<Budget[]>([]);
 
-  const [source, SetSource] = useState('');
-  const [amount, SetAmount] = useState(0);
-  const [date, SetDate] = useState(null);
+  const [source, setSource] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [date, setDate] = useState('');
 
-  const handleChangeSource = (e) => {
+
+  const handleChangeSource = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    SetSource(value);
+    setSource(value);
   };
-  const handleChangeAmount = (e) => {
+  const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setAmount(value);
+  };
+  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    SetAmount(value);
+    setDate(value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newBudget = {
       source: source,
       amount: amount,
-      date: new Date().toLocaleDateString(),
+      date: date,
     };
 
-    setBudgets([...Budgets, newBudget]);
+    setBudgets([...budgets, newBudget]);
   };
+  // create  a variable called total income , total expense 
+
 
   return (
     <div>
-      <IncomeForm
+      {/* For income and expense form */}
+      <BudgetForm
         label={label}
         handleChangeSource={handleChangeSource}
         handleChangeAmount={handleChangeAmount}
+        handleChangeDate={handleChangeDate}
         handleSubmit={handleSubmit}
       />
 
+      {/* to dispaly income and expense list */}
       <ul>
-        {Budgets.map((Budget) => {
+        {budgets.map((budget) => {
           return (
             <li>
-              <p>{`${Budget.source}: ${Budget.amount} on ${Budget.date}`}</p>
+              <p>{`${budget.source}: ${budget.amount}SAR on ${budget.date}`}</p>
             </li>
           );
         })}

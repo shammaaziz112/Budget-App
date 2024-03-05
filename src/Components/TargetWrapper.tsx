@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { SetTarget } from './SetTarget';
+
+import { Button } from './Button';
+import { InputBudget } from './InputBudget';
 
 export function TargetWrapper() {
   const [target, setTarget] = useState(0);
@@ -10,7 +12,14 @@ export function TargetWrapper() {
   return (
     <div>
       {/* set Target */}
-      <SetTarget handleChangeTarget={handleChangeTarget} />
+      <InputBudget
+        type="text"
+        id="target"
+        labelName="Set target"
+        placeholder="target"
+        handlerChange={handleChangeTarget}
+      />
+      <Button label="Rest" budgetName={''} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { BudgetWrapper } from './Components/BudgetWrapper';
-import './App.css';
+import { TargetWrapper } from './Components/TargetWrapper';
 import { useState } from 'react';
+import './App.css';
 
 type Income = {
   source: string;
@@ -16,7 +17,7 @@ function App() {
       <h1>Budget app</h1>
       <BudgetWrapper label="Income" />
       <BudgetWrapper label="Expense" />
-      {/* <TargetWrapper/> */}
+      <TargetWrapper/>
     </div>
   );
 }

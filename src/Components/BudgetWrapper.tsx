@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { BudgetForm } from './BudgetForm';
-import { SetTarget } from './SetTarget';
 
 type Budget = {
   source: string;
@@ -18,6 +17,9 @@ export function BudgetWrapper({ label }: BudgetWrapperProps) {
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState('');
 
+  // create  a variable called total income , total expense
+  const [totalBudget, setTotalIncome] = useState(0);
+  // const [totalExpense, setTotalExpense] = useState(0);
 
   const handleChangeSource = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -42,9 +44,8 @@ export function BudgetWrapper({ label }: BudgetWrapperProps) {
     };
 
     setBudgets([...budgets, newBudget]);
+    setTotalIncome(totalBudget + newBudget.amount);
   };
-  // create  a variable called total income , total expense 
-
 
   return (
     <div>
@@ -56,9 +57,12 @@ export function BudgetWrapper({ label }: BudgetWrapperProps) {
         handleChangeDate={handleChangeDate}
         handleSubmit={handleSubmit}
       />
+      <p>
+        Total {label}: {totalBudget}
+      </p>
 
       {/* to dispaly income and expense list */}
-      <ul>
+      <ol>
         {budgets.map((budget) => {
           return (
             <li>
@@ -66,7 +70,7 @@ export function BudgetWrapper({ label }: BudgetWrapperProps) {
             </li>
           );
         })}
-      </ul>
+      </ol>
     </div>
   );
 }

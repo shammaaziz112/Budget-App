@@ -1,76 +1,78 @@
 import { useState } from 'react';
-import { BudgetForm } from './BudgetForm';
+import { Form } from './Form';
+import { ListItem } from './ListItems';
+import { Dayjs } from 'dayjs';
 
-type Budget = {
+export type Budget = {
+  id: number;
   source: string;
   amount: number;
   date: string;
 };
 type BudgetWrapperProps = {
   label: string;
+  budgets: Budget[];
+  setBudgets: (key: Budget[]) => void;
 };
 
-export function BudgetWrapper({ label }: BudgetWrapperProps) {
-  const [budgets, setBudgets] = useState<Budget[]>([]);
-
-  const [source, setSource] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState('');
+export function BudgetWrapper({
+  label,
+  budgets,
+  setBudgets,
+}: BudgetWrapperProps) {
+  const [budget, setBudget] = useState<Budget>({
+    id: Number(new Date()),
+    source: '',
+    amount: 0,
+    date: new Date().toDateString(),
+  });
 
   // create  a variable called total income , total expense
-  const [totalBudget, setTotalIncome] = useState(0);
-  // const [totalExpense, setTotalExpense] = useState(0);
 
-  const handleChangeSource = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSource(value);
+  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setBudget({
+      ...budget,
+      [name]: value,
+    });
   };
-  const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setAmount(value);
-  };
-  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setDate(value);
+
+  const handleChangeDate = (value: Dayjs | null) => {
+    if (value) {
+      setBudget({
+        ...budget,
+        date: new Date(value.toDate()).toDateString(),
+      });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const newBudget = {
-      source: source,
-      amount: amount,
-      date: date,
+    const newBudget: Budget = {
+      id: Number(new Date()),
+      source: budget.source,
+      amount: Number(budget.amount),
+      date: budget.date,
     };
 
     setBudgets([...budgets, newBudget]);
-    setTotalIncome(totalBudget + newBudget.amount);
   };
 
   return (
     <div>
       {/* For income and expense form */}
-      <BudgetForm
+      <Form
         label={label}
-        handleChangeSource={handleChangeSource}
-        handleChangeAmount={handleChangeAmount}
+        handleChange={handleChanges}
         handleChangeDate={handleChangeDate}
         handleSubmit={handleSubmit}
       />
-      <p>
-        Total {label}: {totalBudget}
-      </p>
+
+      {/* <FormDialog/> */}
 
       {/* to dispaly income and expense list */}
-      <ol>
-        {budgets.map((budget) => {
-          return (
-            <li>
-              <p>{`${budget.source}: ${budget.amount}SAR on ${budget.date}`}</p>
-            </li>
-          );
-        })}
-      </ol>
+      <ListItem items={budgets} />
     </div>
   );
 }

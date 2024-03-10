@@ -1,7 +1,11 @@
+import {
+  Button,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  FormControl,
+} from '@mui/material';
 import { useState } from 'react';
-
-import { Button } from './Button';
-import { InputBudget } from './InputBudget';
 
 export function TargetWrapper() {
   const [target, setTarget] = useState(0);
@@ -12,14 +16,19 @@ export function TargetWrapper() {
   return (
     <div>
       {/* set Target */}
-      <InputBudget
-        type="text"
-        id="target"
-        labelName="Set target"
-        placeholder="target"
-        handlerChange={handleChangeTarget}
-      />
-      <Button label="Rest" budgetName={''} />
+      <FormControl fullWidth>
+        <InputLabel htmlFor="target">Target</InputLabel>
+        <OutlinedInput
+          id="target"
+          name="target"
+          endAdornment={<InputAdornment position="end">SAR</InputAdornment>}
+          label="Target"
+        />
+      </FormControl>
+
+      <Button variant="contained" type="submit">
+        Set target
+      </Button>
     </div>
   );
 }

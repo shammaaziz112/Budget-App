@@ -11,17 +11,16 @@ function App() {
   // declare 2 useState: income and expense
   const [incomes, setIncomes] = useState<Budget[]>([]);
   const [expenses, setExpenses] = useState<Budget[]>([]);
+  console.log(incomes);
 
   // declare 2 varble: total income and expense
   const totalIncome = incomes.reduce((acc, curr) => {
     return acc + curr.amount;
   }, 0);
-  console.log('totalIncome', totalIncome);
 
   const totalExpense = expenses.reduce((acc, curr) => {
     return acc + curr.amount;
   }, 0);
-  console.log('totalExpense', totalExpense);
 
   // declare balance
   const balance = totalIncome - totalExpense;

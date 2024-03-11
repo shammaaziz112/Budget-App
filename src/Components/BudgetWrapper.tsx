@@ -72,7 +72,7 @@ export function BudgetWrapper({
       {/* <FormDialog/> */}
 
       {/* to dispaly income and expense list */}
-      <ListItem items={budgets} />
+      <ListItem items={budgets} setItems={setBudgets} />
     </div>
   );
 }

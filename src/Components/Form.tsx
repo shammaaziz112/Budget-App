@@ -45,6 +45,7 @@ export function Form({
           name="amount"
           endAdornment={<InputAdornment position="end">SAR</InputAdornment>}
           label="Amount"
+          type="number"
           onChange={handleChange}
         />
       </FormControl>
@@ -60,19 +61,12 @@ export function Form({
                 textField: {
                   required: true,
                 },
-              }}  
+              }}
             />
           </DemoContainer>
         </LocalizationProvider>
       </FormControl>
 
-      {/* <InputBudget
-        type="date"
-        id="date"
-        labelName="Date"
-        placeholder="date"
-        handlerChange={handleChangeDate}
-      /> */}
       <Button variant="contained" type="submit">
         Add
       </Button>

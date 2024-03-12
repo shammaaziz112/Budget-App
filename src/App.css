@@ -23,6 +23,11 @@
   padding-top: 20px;
 }
 
+.divBalanceTran {
+  display: flex;
+  flex-direction: column;
+}
+
 .balanceWrapper .balanceInput {
   margin-bottom: 15px;
 }

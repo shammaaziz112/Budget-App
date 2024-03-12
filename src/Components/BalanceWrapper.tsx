@@ -25,7 +25,7 @@ export function BalanceWrapper({ balanceValue }: BalanceWrapperProps) {
         />
       </FormControl>
 
-      <Button variant="contained">Transfer</Button>
+      {/* <Button variant="contained">Transfer</Button> */}
     </div>
   );
 }

@@ -5,9 +5,98 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 20px;
+  color: white;
+  background-color: rgb(33, 35, 39);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App .Grid {
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: -10px;
+}
+
+.App .itemGrid {
+  align-items: center;
+  /* width: fit-content; */
+  background-color: aquamarine;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 24px;
+  background-color: rgb(43, 46, 50);
+}
+
+.App .itemGrid.Balance {
+  background-color: #51a76c;
+}
+
+/* BalanceWrapper */
+.balanceWrapper {
+  padding-top: 20px;
+}
+
+.divBalanceTran {
+  display: flex;
+  flex-direction: column;
+}
+
+.balanceWrapper .balanceInput {
+  margin-bottom: 15px;
+}
+
+/* BudgetWrapper */
+.App .itemGrid.budgetForm {
+  align-items: flex-start;
+  height: fit-content;
+}
+
+.BudgetForm .inputSource {
+  margin-bottom: 8px;
+}
+
+.BudgetForm .datePicker {
+  display: flex;
+  flex: 1;
+
+  margin-bottom: 20px;
+}
+
+.budgetWrapperGrid {
+  justify-content: space-between;
+}
+
+.budgetWrapperDiv {
+  flex: 1;
+}
+
+.FormDialogDiv {
+  justify-content: right;
+  display: flex;
+}
+
+.divSaving {
+  flex: 1;
+}
+
+.formSaving {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-content: center;
+}
+
+.divSetTarget {
+  display: flex;
+}
+
+.divTransferAccount {
+  display: flex;
+  align-items: center;
 }

@@ -1,5 +1,4 @@
 import {
-  Button,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -11,23 +10,13 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { Dayjs } from 'dayjs';
 
 type FormProps = {
-  label: string;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
   handleChangeDate: (value: Dayjs | null) => void;
-  handleSubmit: React.FormEventHandler<HTMLFormElement>;
 };
 
-export function Form({
-  label,
-  handleChange,
-  handleChangeDate,
-  handleSubmit,
-}: FormProps) {
+export function Form({ handleChange, handleChangeDate }: FormProps) {
   return (
-    <form className="BudgetForm" onSubmit={handleSubmit}>
-      {/* idon't put handleSubmit here becasue i will use formDialog and doesn't accapte form inside form */}
-      <h2>{label}</h2>
-
+    <div className="BudgetForm">
       <FormControl className="inputSource" fullWidth required>
         <InputLabel htmlFor="source">Source</InputLabel>
         <OutlinedInput
@@ -66,10 +55,6 @@ export function Form({
           </DemoContainer>
         </LocalizationProvider>
       </FormControl>
-
-      <Button variant="contained" type="submit">
-        Add
-      </Button>
-    </form>
+    </div>
   );
 }

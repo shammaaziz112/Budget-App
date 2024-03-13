@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Form } from './Form';
-import { ListItem } from './ListItems';
-import { Dayjs } from 'dayjs';
+import Grid from '@mui/material/Grid';
+
+import FormDialog from './FormDialog';
+import Table from './Table';
 
 export type Budget = {
   id: number;
@@ -20,59 +20,35 @@ export function BudgetWrapper({
   budgets,
   setBudgets,
 }: BudgetWrapperProps) {
-  const [budget, setBudget] = useState<Budget>({
-    id: Number(new Date()),
-    source: '',
-    amount: 0,
-    date: new Date().toDateString(),
-  });
-
-  // create  a variable called total income , total expense
-
-  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setBudget({
-      ...budget,
-      [name]: value,
-    });
-  };
-
-  const handleChangeDate = (value: Dayjs | null) => {
-    if (value) {
-      setBudget({
-        ...budget,
-        date: new Date(value.toDate()).toDateString(),
-      });
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newBudget: Budget = {
-      id: Number(new Date()),
-      source: budget.source,
-      amount: Number(budget.amount),
-      date: budget.date,
-    };
-
-    setBudgets([...budgets, newBudget]);
-  };
-
   return (
-    <div>
+    <div className="budgetWrapperDiv">
       {/* For income and expense form */}
-      <Form
-        label={label}
-        handleChange={handleChanges}
-        handleChangeDate={handleChangeDate}
-        handleSubmit={handleSubmit}
-      />
-
-      {/* <FormDialog/> */}
-
-      {/* to dispaly income and expense list */}
-      <ListItem items={budgets} setItems={setBudgets} />
+      <Grid
+        className="budgetWrapperGrid"
+        container
+        display={'flex'}
+        justify-content={'space-between'}
+      >
+        <Grid item xs={3}>
+          <div>
+            <h2>{label}</h2>
+          </div>
+        </Grid>
+        <Grid item xs={3}>
+          <div className="FormDialogDiv">
+            <FormDialog
+              label={label}
+              budgets={budgets}
+              setBudgets={setBudgets}
+            />
+          </div>
+        </Grid>
+        <Grid item xs={12} marginTop={5}>
+          {/* to dispaly income and expense list */}
+          <Table items={budgets} setItems={setBudgets} />
+        </Grid>
+      </Grid>
+      
     </div>
   );
 }

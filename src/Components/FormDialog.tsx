@@ -1,112 +1,117 @@
-// import * as React from 'react';
-// import Button from '@mui/material/Button';
-// import TextField from '@mui/material/TextField';
-// import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogContentText from '@mui/material/DialogContentText';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import { Form } from './Form';
-// import { useState } from 'react';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab,
+} from '@mui/material';
+import { Dayjs } from 'dayjs';
+import AddIcon from '@mui/icons-material/Add';
 
-// type Budget = {
-//   source: string;
-//   amount: number;
-//   date: string;
-// };
-// type BudgetWrapperProps = {
-//   label: string;
-// };
+import * as React from 'react';
+import { useState } from 'react';
+import { Form } from './Form';
 
-// export default function FormDialog() {
-//   const [open, setOpen] = React.useState(false);
+type FormDialogProps = {
+  label: string;
+  budgets: Budget[];
+  setBudgets: (key: Budget[]) => void;
+};
 
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
+export type Budget = {
+  id: number;
+  source: string;
+  amount: number;
+  date: string;
+};
+export default function FormDialog({
+  label,
+  budgets,
+  setBudgets,
+}: FormDialogProps) {
+  const [budget, setBudget] = useState<Budget>({
+    id: Number(new Date()),
+    source: '',
+    amount: 0,
+    date: new Date().toDateString(),
+  });
 
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
+  // create  a variable called total income , total expense
+  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-//   /**---------------------------------------- */
-//   const [budgets, setBudgets] = useState<Budget[]>([]);
+    setBudget({
+      ...budget,
+      [name]: value,
+    });
+  };
 
-//   const [source, setSource] = useState('');
-//   const [amount, setAmount] = useState(0);
-//   const [date, setDate] = useState('');
-//   console.log(budgets);
-//   // create  a variable called total income , total expense
-//   const [totalBudget, setTotalIncome] = useState(0);
-//   // const [totalExpense, setTotalExpense] = useState(0);
+  const handleChangeDate = (value: Dayjs | null) => {
+    if (value) {
+      setBudget({
+        ...budget,
+        date: new Date(value.toDate()).toDateString(),
+      });
+    }
+  };
 
-//   const handleChangeSource = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const value = e.target.value;
-//     setSource(value);
-//   };
-//   const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const value = parseInt(e.target.value);
-//     setAmount(value);
-//   };
-//   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const value = e.target.value;
-//     setDate(value);
-//   };
+  const [open, setOpen] = React.useState(false);
 
-//   const handleSubmit = (e: any) => {
-//     e.preventDefault();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-//     const newBudget = {
-//       source: source,
-//       amount: amount,
-//       date: date,
-//     };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-//     setBudgets([...budgets, newBudget]);
-//     setTotalIncome(totalBudget + newBudget.amount);
-//   };
+  return (
+    <React.Fragment>
+      <Button onClick={handleClickOpen}>
+        <Fab size="medium" color="success" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            console.log('added');
 
-//   return (
-//     <React.Fragment>
-//       <Button variant="outlined" onClick={handleClickOpen}>
-//         Open form dialog
-//       </Button>
-//       <Dialog
-//         open={open}
-//         onClose={handleClose}
-//         PaperProps={{
-//           component: 'form',
-//           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-//             event.preventDefault();
-//             const formData = new FormData(event.currentTarget);
-//             const formJson = Object.fromEntries((formData as any).entries());
-//             const email = formJson.email;
-//             console.log(email);
-//             handleClose();
-//           },
-//         }}
-//       >
-//         <DialogTitle>Subscribe</DialogTitle>
-//         <DialogContent>
-//           <DialogContentText>
-//             To subscribe to this website, please enter your email address here.
-//             We will send updates occasionally.
-//           </DialogContentText>
-//           <Form
-//             label="hi"
-//             handleChangeSource={handleChangeSource}
-//             handleChangeAmount={handleChangeAmount}
-//             // handleChangeDate={handleChangeDate}
-//             handleSubmit={handleSubmit}
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleClose}>Cancel</Button>
-//           <Button type="submit" onClick={handleSubmit}>
-//             ADD
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </React.Fragment>
-//   );
-// }
+            const newBudget: Budget = {
+              id: Number(new Date()),
+              source: budget.source,
+              amount: Number(budget.amount),
+              date: budget.date,
+            };
+
+            setBudgets([...budgets, newBudget]);
+            console.log('budgets', budgets);
+
+            handleClose();
+          },
+        }}
+      >
+        <DialogTitle>Add {label}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To add {label}, please enter source, amount and date here.
+          </DialogContentText>
+          <Form
+            handleChange={handleChanges}
+            handleChangeDate={handleChangeDate}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">ADD</Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
+  );
+}
